@@ -1,12 +1,14 @@
 import sys
 
+
 class Token:
     def __init__(self, type, value):
-        self.type = type 
+        self.type = type
         self.value = value
 
     def __str__(self):
         return "Type: %s, Value: %s " % (self.type, self.value)
+
 
 class Lexer:
     def __init__(self, text):
@@ -14,7 +16,7 @@ class Lexer:
         self.currIndex = 0
 
     def isEofReached(self):
-        return self.currIndex >= len(self.text)      
+        return self.currIndex >= len(self.text)
 
     def getCurrToken(self):
         token = None
@@ -22,7 +24,7 @@ class Lexer:
             token = Token("EOF", None)
             return token
 
-        currTokenVal = self.text[self.currIndex] 
+        currTokenVal = self.text[self.currIndex]
         if currTokenVal.isalpha():
             token = Token("ALPHABET", currTokenVal)
             return token
@@ -33,7 +35,8 @@ class Lexer:
             token = Token("UNDERSCORE", currTokenVal)
             return token
         else:
-            raise ValueError("unexpected  char %c in variable name" % currTokenVal)
+            raise ValueError(
+                "unexpected  char %c in variable name" % currTokenVal)
 
     def consumeCurrToken(self):
         currToken = self.getCurrToken()
@@ -48,6 +51,7 @@ class Lexer:
         else:
             return None
 
+
 def main():
     if len(sys.argv) < 2:
         raise ValueError('please pass the variable name to validate')
@@ -55,22 +59,23 @@ def main():
     varNameToValidate = sys.argv[1]
     validateIfValidName(varNameToValidate)
 
+
 def validateIfValidName(varNameToValidate):
     print("validating variable name: %s " % varNameToValidate)
-    lexer = Lexer(varNameToValidate) 
+    lexer = Lexer(varNameToValidate)
     consumedToken = lexer.consumeCurrTokenOnMatch("ALPHABET")
     if consumedToken is None:
         raise ValueError("Variable names should start with an alphabet")
-    print("first token is %s "%consumedToken)
+    print("first token is %s " % consumedToken)
     try:
-        while lexer.getCurrToken().type != "EOF" :
-            currToken = lexer.consumeCurrToken() 
-            print("curr token is %s "%currToken)
+        while lexer.getCurrToken().type != "EOF":
+            currToken = lexer.consumeCurrToken()
+            print("curr token is %s " % currToken)
     except Exception as e:
-            print(e)
+        print(e)
 
     print("Variable name is valid")
 
 
-if __name__ == "__main__": 
-    main()     
+if __name__ == "__main__":
+    main()
